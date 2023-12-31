@@ -6,7 +6,7 @@ As you play the wordle game it tells you if the letter you guessed is:
 - A letter **in** the word in orange (i.e. the letter you guessed occurs in the word, but not at the position you chose) 
 - Or an **out** letter in black (i.e. the letter you guessed does not occuer in the word)
 
-The way this
+The way this tool works is that you enter the responses from wordle into the user interface and it lists possible matching words. Initially the list of words will be just a dump of the dictionary, but as you make more guesses it will be a much smaller list.
 
 ## Installation and running
 
