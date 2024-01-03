@@ -36,5 +36,5 @@ There is no real guidance for subsequent guesses as such. Normally the Wordle da
 
 ## Known problems
 
-While I was testing on a Mac, I observed that sometimes the buttons would not respond to my mouse clicks. The only solution I could find was to repeatedly click the buttons until I got a response frm the UI. Hopefully I will find a solution to this problem.
+With pytho versions prior to 3.12 this program will behave very badly (frequently failing to respond to button clicks). Therefore you are strongly advised to upgrad to at least v3.12.
 

@@ -17,6 +17,12 @@ DICT_FILE_NAME = '5words.txt'
 MATCH_LIMIT = 200   # the maximum number of potential matching words to display
 WORDS_PER_LINE = 10 # the maximum number of words to display per line before wrappimg
 
+import sys
+
+version = sys.version
+if sys.version_info[0]<3 or sys.version_info[1]<12:
+    print("*** WARNING *** you are running python version ", sys.version, "this program requires v3.12 of python. Please upgrade")
+
 dict_file = open(DICT_FILE_NAME, 'r')
 dict_lines = dict_file.readlines()
 
