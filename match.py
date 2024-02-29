@@ -122,6 +122,7 @@ def inc_position():
 def match_clicked(event):
     # print("match button clicked")
     ltr_text = ent_ltr.get()
+    ent_ltr.delete(0,tk.END)
     if len(ltr_text) < 1:
         print("No letter supplied so ignore")
         return
@@ -139,6 +140,7 @@ def match_clicked(event):
 def in_clicked(event):
     # print("in button clicked")
     ltr_text = ent_ltr.get()
+    ent_ltr.delete(0,tk.END)
     if len(ltr_text) < 1:
         print("No letter supplied so ignore")
         return
@@ -156,6 +158,7 @@ def in_clicked(event):
 def out_clicked(event):
     # print("out button clicked")
     ltr_text = ent_ltr.get()
+    ent_ltr.delete(0,tk.END)
     if len(ltr_text) < 1:
         print("No letter supplied so ignore")
         return
