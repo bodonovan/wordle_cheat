@@ -36,5 +36,6 @@ There is no real guidance for subsequent guesses as such. Normally the Wordle da
 
 ## Known problems
 
-With pytho versions prior to 3.12 this program will behave very badly (frequently failing to respond to button clicks). Therefore you are strongly advised to upgrad to at least v3.12.
+- With python versions prior to 3.12 this program will behave very badly (frequently failing to respond to button clicks). Therefore you are strongly advised to upgrade to at least v3.12.
+- The program does not behave totally correctly when the target word contains duplicate letters (i.e. either in the hidden word or in your guess). There are plans to fix this, but it is tricky because I cant easily see how double lettters are scored because wordle rarely has any.
 
