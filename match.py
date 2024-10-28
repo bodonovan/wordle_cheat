@@ -28,7 +28,7 @@ dict_lines = dict_file.readlines()
 
 in_letters = {} 
 out_letters = []
-matches = {}
+matches = "_____"
 
 def clear_rules():
     global in_letters
@@ -36,14 +36,18 @@ def clear_rules():
     global matches
     in_letters = {}
     out_letters = []
-    matches = {}
+    matches = "_____"
 
 def add_out_letter (letter):
     if letter not in out_letters:
         out_letters.append(letter)
 
 def add_match (letter, posn):
-    matches[letter] = posn
+    global matches
+    p = int(posn)-1
+    start_str = matches[0:p]
+    end_str = matches[p:]
+    matches = start_str+letter[0]+end_str
 
 def add_in_letter (letter, posn):
     if letter in in_letters:
@@ -52,11 +56,11 @@ def add_in_letter (letter, posn):
         in_letters[letter] = [posn]
 
 def word_match (word):
-    for letter in matches:
-        posn = matches.get(letter)
-        posn -= 1
-        if not letter == word[posn]:
-            return False
+    for posn in range(5):
+        # rule_text += matches[posn]
+        if matches[posn] != '_':
+            if matches[posn] != word[posn]:
+                return False
     for letter in out_letters:
         if letter in word:
             return False
@@ -90,10 +94,8 @@ def display_matches():
 def display_rules():
     rule_text = "Rules"
     rule_text += "\nMatches:     "
-    for letter in matches:
-        rule_text += letter + "("
-        rule_text += str(matches[letter])
-        rule_text +=") "
+    for x in range(5):
+        rule_text += matches[x] + ' '
     rule_text += "\nIn Letters:  "
     for letter in in_letters:
         rule_text += letter
