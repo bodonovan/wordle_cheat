@@ -14,8 +14,8 @@
 #    limitations under the License.
 
 DICT_FILE_NAME = '5words.txt'
-MATCH_LIMIT = 200   # the maximum number of potential matching words to display
-WORDS_PER_LINE = 10 # the maximum number of words to display per line before wrappimg
+MATCH_LIMIT = 220   # the maximum number of potential matching words to display
+WORDS_PER_LINE = 11 # the maximum number of words to display per line before wrappimg
 
 import sys
 
@@ -27,20 +27,35 @@ dict_file = open(DICT_FILE_NAME, 'r')
 dict_lines = dict_file.readlines()
 
 in_letters = {} 
+in_letters_hist = []
 out_letters = []
+out_letters_hist = []
 matches = "_____"
+matches_hist = []
 
 def clear_rules():
     global in_letters
+    global in_letters_hist
     global out_letters
+    global out_letters_hist
     global matches
-    in_letters = {}
+    global matches_hist
+    in_letters = {} 
+    in_letters_hist = []
     out_letters = []
+    out_letters_hist = []
     matches = "_____"
+    matches_hist = []
+
+def add_rules_to_hist ():
+    in_letters_hist.append(in_letters.copy())
+    out_letters_hist.append(out_letters.copy())
+    matches_hist.append(matches)
 
 def add_out_letter (letter):
     if letter not in out_letters:
         out_letters.append(letter)
+        add_rules_to_hist()
 
 def add_match (letter, posn):
     global matches
@@ -48,12 +63,14 @@ def add_match (letter, posn):
     start_str = matches[0:p]
     end_str = matches[p:]
     matches = start_str+letter[0]+end_str
+    add_rules_to_hist()
 
 def add_in_letter (letter, posn):
     if letter in in_letters:
         in_letters[letter].append(posn)
     else:
         in_letters[letter] = [posn]
+    add_rules_to_hist()
 
 def word_match (word):
     for posn in range(5):
@@ -169,16 +186,67 @@ def out_clicked(event):
     display_matches()
     inc_position()   
 
+def decrement_posn():
+    # change ent_posn - set it to 1 less than current value
+    posn = ent_posn.get()
+    # print('Existing posn =', posn)
+    ent_posn.delete(0, tk.END)
+    try:
+        posn = int(posn)
+        # print('Existing posn int =', posn)
+        if posn>1:
+            posn = (posn-1) % 5
+            # print('Posn updated to =', posn)
+        ent_posn.insert(0, str(posn))
+    except:
+        print("position field invalid so set to 1")
+        ent_posn.insert(0, str("1"))
+
+def undo_clicked(event):
+    # print("undo button clicked")
+ 
+    global out_letters_hist
+    global out_letters
+    global in_letters_hist
+    global in_letters
+    global matches_hist
+    global matches
+
+    if len(out_letters_hist)<2:
+        # print("only one history entry so just clear")
+        clear_clicked({})
+        return
+ 
+    decrement_posn()
+    ent_ltr.delete(0, tk.END) # blank the letter input
+
+    out_letters = out_letters_hist[-2]
+    # print("out_letters", out_letters)
+    out_letters_hist = out_letters_hist[0:-1]
+    # print("out_letters_hist", out_letters_hist)
+
+    in_letters = in_letters_hist[-2]
+    # print("in_letters", in_letters)
+    in_letters_hist = in_letters_hist[0:-1]
+    # print("in_letters_hist", in_letters_hist)
+
+    matches = matches_hist[-2]
+    # print("matches", matches)
+    matches_hist = matches_hist[0:-1]
+    # print("matches_hist", matches_hist)
+
+    display_rules()  
+    display_matches()
+
 
 def clear_clicked(event):
-    # print("clear button clicked")
+    print("clearing rules")
     ent_ltr.delete(0, tk.END)
     ent_posn.delete(0, tk.END)
     ent_posn.insert(0, "1")
     clear_rules()
     display_rules()  
     display_matches()
-      
 
 import tkinter as tk
 window = tk.Tk()
@@ -211,8 +279,11 @@ btn_in.bind("<Button-1>", in_clicked)
 btn_out = tk.Button(master=frm_form, text="Out")
 btn_out.grid(row=0, column=6)
 btn_out.bind("<Button-1>", out_clicked)
+btn_undo = tk.Button(master=frm_form, text="UnDo")
+btn_undo.grid(row=0, column=7)
+btn_undo.bind("<Button-1>", undo_clicked)
 btn_clear = tk.Button(master=frm_form, text="Clear")
-btn_clear.grid(row=0, column=7)
+btn_clear.grid(row=0, column=8)
 btn_clear.bind("<Button-1>", clear_clicked)
 
 frm_matches = tk.Frame(relief=tk.SUNKEN, borderwidth=3)
