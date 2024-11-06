@@ -26,6 +26,7 @@ if sys.version_info[0]<3 or sys.version_info[1]<12:
 dict_file = open(DICT_FILE_NAME, 'r')
 dict_lines = dict_file.readlines()
 
+# define the global variables to hold the rules
 in_letters = {} 
 in_letters_hist = []
 out_letters = []
@@ -33,6 +34,7 @@ out_letters_hist = []
 matches = "_____"
 matches_hist = []
 
+# reset the rules i.e. start a new attempt
 def clear_rules():
     global in_letters
     global in_letters_hist
@@ -47,16 +49,19 @@ def clear_rules():
     matches = "_____"
     matches_hist = []
 
+# record the current set of rules in arrays (so we can undo)
 def add_rules_to_hist ():
     in_letters_hist.append(in_letters.copy())
     out_letters_hist.append(out_letters.copy())
     matches_hist.append(matches)
 
+# add a rule that the specified letter is not in the target word
 def add_out_letter (letter):
     if letter not in out_letters:
         out_letters.append(letter)
         add_rules_to_hist()
 
+# add a rule that a specified letter appears in the specified position
 def add_match (letter, posn):
     global matches
     p = int(posn)-1
@@ -65,6 +70,7 @@ def add_match (letter, posn):
     matches = start_str+letter[0]+end_str
     add_rules_to_hist()
 
+# add a rule that a letter appears in the target word, but not in the specified position
 def add_in_letter (letter, posn):
     if letter in in_letters:
         in_letters[letter].append(posn)
@@ -72,6 +78,7 @@ def add_in_letter (letter, posn):
         in_letters[letter] = [posn]
     add_rules_to_hist()
 
+# test if the specified word could be our target word
 def word_match (word):
     for posn in range(5):
         # rule_text += matches[posn]
@@ -138,6 +145,7 @@ def inc_position():
     ent_posn.delete(0, tk.END)
     ent_posn.insert(0, str(new_posn))
 
+# respond to a click on the 'match' button
 def match_clicked(event):
     # print("match button clicked")
     ltr_text = ent_ltr.get()
@@ -156,6 +164,7 @@ def match_clicked(event):
     display_matches()
     inc_position()   
 
+# respond to the 'in' button being clicked
 def in_clicked(event):
     # print("in button clicked")
     ltr_text = ent_ltr.get()
@@ -174,6 +183,7 @@ def in_clicked(event):
     display_matches()
     inc_position()   
 
+# respond to the 'out' button being clicked
 def out_clicked(event):
     # print("out button clicked")
     ltr_text = ent_ltr.get()
@@ -186,8 +196,8 @@ def out_clicked(event):
     display_matches()
     inc_position()   
 
+# change ent_posn - set it to 1 less than current value
 def decrement_posn():
-    # change ent_posn - set it to 1 less than current value
     posn = ent_posn.get()
     # print('Existing posn =', posn)
     ent_posn.delete(0, tk.END)
@@ -202,6 +212,7 @@ def decrement_posn():
         print("position field invalid so set to 1")
         ent_posn.insert(0, str("1"))
 
+# respond to the 'undo' button being clicked
 def undo_clicked(event):
     # print("undo button clicked")
  
@@ -238,7 +249,7 @@ def undo_clicked(event):
     display_rules()  
     display_matches()
 
-
+# respond to the 'clear' button being clicked
 def clear_clicked(event):
     print("clearing rules")
     ent_ltr.delete(0, tk.END)
@@ -248,6 +259,7 @@ def clear_clicked(event):
     display_rules()  
     display_matches()
 
+# define the UI
 import tkinter as tk
 window = tk.Tk()
 window.title("Wordle Cheat")
