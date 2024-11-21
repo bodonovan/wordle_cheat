@@ -66,7 +66,7 @@ def add_match (letter, posn):
     global matches
     p = int(posn)-1
     start_str = matches[0:p]
-    end_str = matches[p:]
+    end_str = matches[(p+1):]
     matches = start_str+letter[0]+end_str
     add_rules_to_hist()
 
