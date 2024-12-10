@@ -71,9 +71,14 @@ def add_match (letter, posn):
     add_rules_to_hist()
 
 # add a rule that a letter appears in the target word, but not in the specified position
-def add_in_letter (letter, posn):
+def add_in_letter(letter, posn):
+    posn = int(posn)
     if letter in in_letters:
-        in_letters[letter].append(posn)
+        # only add the position if it's not already in the list
+        if posn not in in_letters[letter]:
+            in_letters[letter].append(posn)
+        else:
+            print("Same letter and position so ignore")
     else:
         in_letters[letter] = [posn]
     add_rules_to_hist()
