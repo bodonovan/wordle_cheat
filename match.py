@@ -281,6 +281,7 @@ lbl_ltr = tk.Label(master=frm_form, text="Letter:")
 ent_ltr = tk.Entry(master=frm_form, width=1)
 lbl_ltr.grid(row=0, column=2, sticky="e")
 ent_ltr.grid(row=0, column=3)
+ent_ltr.focus()
 
 btn_match = tk.Button(master=frm_form, text="Match")
 btn_match.grid(row=0, column=4)
