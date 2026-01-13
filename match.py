@@ -72,9 +72,14 @@ def add_match (letter, posn):
     add_rules_to_hist()
 
 # add a rule that a letter appears in the target word, but not in the specified position
-def add_in_letter (letter, posn):
+def add_in_letter(letter, posn):
+    posn = int(posn)
     if letter in in_letters:
-        in_letters[letter].append(posn)
+        # only add the position if it's not already in the list
+        if posn not in in_letters[letter]:
+            in_letters[letter].append(posn)
+        else:
+            print("Same letter and position so ignore")
     else:
         in_letters[letter] = [posn]
     add_rules_to_hist()
@@ -282,6 +287,7 @@ lbl_ltr = tk.Label(master=frm_form, text="Letter:")
 ent_ltr = tk.Entry(master=frm_form, width=1)
 lbl_ltr.grid(row=0, column=2, sticky="e")
 ent_ltr.grid(row=0, column=3)
+ent_ltr.focus()
 
 btn_match = tk.Button(master=frm_form, text="Match")
 btn_match.grid(row=0, column=4)
