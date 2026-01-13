@@ -16,6 +16,7 @@
 DICT_FILE_NAME = '5words.txt'
 MATCH_LIMIT = 220   # the maximum number of potential matching words to display
 WORDS_PER_LINE = 11 # the maximum number of words to display per line before wrappimg
+FONT_SIZE = 14
 
 import sys
 
@@ -273,7 +274,7 @@ ent_posn.insert(0, "1")
 lbl_posn.grid(row=0, column=0, sticky="e")
 ent_posn.grid(row=0, column=1)
 
-lbl_rules = tk.Label(master=window, justify="left", font=("Courier", 12))
+lbl_rules = tk.Label(master=window, justify="left", font=("Courier", FONT_SIZE))
 display_rules()
 lbl_rules.pack(anchor="w")
 
@@ -300,7 +301,7 @@ btn_clear.bind("<Button-1>", clear_clicked)
 
 frm_matches = tk.Frame(relief=tk.SUNKEN, borderwidth=3)
 frm_matches.pack(anchor="w")
-lbl_matches = tk.Label(master=frm_matches, text="Possible matches:", anchor="w", justify="left", font=("Courier", 12) )
+lbl_matches = tk.Label(master=frm_matches, text="Possible matches:", anchor="w", justify="left", font=("Courier", FONT_SIZE) )
 lbl_matches.grid(row=0, column=0, sticky="e")
 display_matches()
 
