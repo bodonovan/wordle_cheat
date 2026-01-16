@@ -32,6 +32,7 @@ for line in dict.keys():
     line = line.strip().upper() # conert the words to upper case since Wordle uses upper case
     out_lines.append(line+'\n')
 
+out_lines.sort()
 out_file = open(OUT_FILE_NAME, 'w')
 out_file.writelines(out_lines)
 out_file.close()
